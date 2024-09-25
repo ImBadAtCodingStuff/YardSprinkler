@@ -9,31 +9,16 @@ import time
 # init LCD screen
 lcd = CharLCD('PCF8574', 0x27)
 
-try:
-    lcd.clear()  # Clear the LCD
-    lcd.write_string('Hello, World!')  # Write a string to the LCD
-    time.sleep(2)  # Wait for 2 seconds
-    
-    lcd.clear()  # Clear the display
-    lcd.write_string('RPLCD Example')  # Write another string
-    time.sleep(2)
+#lcd.cursor_pos = (1, 0)  # Move to the second row, first column
 
-    # Position the cursor
-    lcd.cursor_pos = (1, 0)  # Move to the second row, first column
-    lcd.write_string('Goodbye!')  # Write on the second row
-    
-    time.sleep(2)
-
-finally:
-    lcd.clear()  # Clear the display before exiting
-    lcd.close()  # Close the LCD connection
-
-exit()
 
 pinOuts = [17, 27, 22, 10, 9, 11, 20, 16, 26]
 
 # Create a list of relay devices
 relays = [gpiozero.OutputDevice(pin, active_high=False, initial_value=False) for pin in pinOuts]
+
+def lcd_display(text):
+    lcd.write_string(text)
 
 def start_server():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,6 +29,8 @@ def start_server():
     while True:
         conn, addr = server_socket.accept()
         print(f"Connection from {addr}")
+        lcd_display("Hello World!")
+        time.sleep(2)
 
         try:
             while True:
