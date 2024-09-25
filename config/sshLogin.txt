@@ -2,4 +2,6 @@ SSH Login to raspberry pi.
 
 ssh evan@ipaddresshere
 
+Password: evan
+
 recent yard network IP: 192.168.12.9
