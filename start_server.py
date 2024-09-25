@@ -4,6 +4,31 @@ from RPLCD.i2c import CharLCD
 import socket
 import struct
 import gpiozero
+import time
+
+# init LCD screen
+lcd = CharLCD(0x27, 2, 16)
+
+try:
+    lcd.clear()  # Clear the LCD
+    lcd.write_string('Hello, World!')  # Write a string to the LCD
+    time.sleep(2)  # Wait for 2 seconds
+    
+    lcd.clear()  # Clear the display
+    lcd.write_string('RPLCD Example')  # Write another string
+    time.sleep(2)
+
+    # Position the cursor
+    lcd.cursor_pos = (1, 0)  # Move to the second row, first column
+    lcd.write_string('Goodbye!')  # Write on the second row
+    
+    time.sleep(2)
+
+finally:
+    lcd.clear()  # Clear the display before exiting
+    lcd.close()  # Close the LCD connection
+
+exit()
 
 pinOuts = [17, 27, 22, 10, 9, 11, 20, 16, 26]
 
