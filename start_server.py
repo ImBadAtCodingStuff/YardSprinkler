@@ -1,26 +1,11 @@
 import socket
 import struct
-
-import sys
-import time
 import gpiozero
 
 pinOuts = [2, 3, 4, 17, 27, 22, 10, 9, 11, 0, 5, 6]
 
-global relay1, relay2, relay3, relay4, relay5, relay6, relay7, relay8, relay9, relay10, relay11, relay12
-
-relay1 = gpiozero.OutputDevice(pinOuts[0], active_high=False, initial_value=False)
-relay2 = gpiozero.OutputDevice(pinOuts[1], active_high=False, initial_value=False)
-relay3 = gpiozero.OutputDevice(pinOuts[2], active_high=False, initial_value=False)
-relay4 = gpiozero.OutputDevice(pinOuts[3], active_high=False, initial_value=False)
-relay5 = gpiozero.OutputDevice(pinOuts[4], active_high=False, initial_value=False)
-relay6 = gpiozero.OutputDevice(pinOuts[5], active_high=False, initial_value=False)
-relay7 = gpiozero.OutputDevice(pinOuts[6], active_high=False, initial_value=False)
-relay8 = gpiozero.OutputDevice(pinOuts[7], active_high=False, initial_value=False)
-relay9 = gpiozero.OutputDevice(pinOuts[8], active_high=False, initial_value=False)
-relay10 = gpiozero.OutputDevice(pinOuts[9], active_high=False, initial_value=False)
-relay11 = gpiozero.OutputDevice(pinOuts[10], active_high=False, initial_value=False)
-relay12 = gpiozero.OutputDevice(pinOuts[11], active_high=False, initial_value=False)
+# Create a list of relay devices
+relays = [gpiozero.OutputDevice(pin, active_high=False, initial_value=False) for pin in pinOuts]
 
 def start_server():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -40,13 +25,18 @@ def start_server():
                 if len(data) == 5:
                     integer, boolean = struct.unpack('Ib', data)
                     print(f"Received integer: {integer}, boolean: {boolean}")
-                    relay = "relay"+str(integer)
-                    if bool(boolean):
-                        print(f"Setting relay{integer} ON")
-                        relay.on()
+                    
+                    # Ensure the integer is within the correct range
+                    if 1 <= integer <= len(relays):
+                        relay = relays[integer - 1]  # Get the corresponding relay (1-based index)
+                        if boolean:
+                            print(f"Setting relay{integer} ON")
+                            relay.on()
+                        else:
+                            print(f"Setting relay{integer} OFF")
+                            relay.off()
                     else:
-                        print(f"Setting relay{integer} OFF")
-                        relay.off()
+                        print(f"Invalid relay number: {integer}")
                 else:
                     print("Received malformed data")
         except Exception as e:
