@@ -31,8 +31,8 @@ def start_server():
     while True:
         conn, addr = server_socket.accept()
         print(f"Connection from {addr}")
-        lcd_display(0, "connection:")
-        lcd_display(1, str(addr))
+        lcd_display(0, "connection")
+        lcd_display(1, addr)
         time.sleep(2)
         lcd.clear()
 
