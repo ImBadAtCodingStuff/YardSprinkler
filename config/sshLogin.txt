@@ -1,0 +1,3 @@
+SSH Login to raspberry pi.
+
+ssh evan@ipaddresshere
