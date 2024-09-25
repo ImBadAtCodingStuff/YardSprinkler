@@ -7,7 +7,7 @@ import gpiozero
 import time
 
 # init LCD screen
-lcd = CharLCD(0x27, 2, 16)
+lcd = CharLCD('PCF8574', 0x27, 2, 16)
 
 try:
     lcd.clear()  # Clear the LCD
