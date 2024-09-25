@@ -1,4 +1,7 @@
+#!/home/evan/Desktop/YardSprinkler/bin/python
+
 from RPLCD.i2c import CharLCD
+
 import socket
 import struct
 import gpiozero
