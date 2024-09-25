@@ -17,7 +17,9 @@ pinOuts = [17, 27, 22, 10, 9, 11, 20, 16, 26]
 # Create a list of relay devices
 relays = [gpiozero.OutputDevice(pin, active_high=False, initial_value=False) for pin in pinOuts]
 
-def lcd_display(text):
+def lcd_display(row, text):
+
+    lcd.cursor_pos = (row, 0)
     lcd.write_string(text)
 
 def start_server():
@@ -29,8 +31,10 @@ def start_server():
     while True:
         conn, addr = server_socket.accept()
         print(f"Connection from {addr}")
-        lcd_display("Hello World!")
+        lcd_display(0, "connection:")
+        lcd_display(1, str(addr))
         time.sleep(2)
+        lcd.clear()
 
         try:
             while True:
