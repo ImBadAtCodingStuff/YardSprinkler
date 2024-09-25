@@ -2,7 +2,7 @@ import socket
 import struct
 import gpiozero
 
-pinOuts = [2, 3, 4, 17, 27, 22, 10, 9, 11, 0, 5, 6]
+pinOuts = [17, 27, 22, 10, 9, 11, 20, 16, 26]
 
 # Create a list of relay devices
 relays = [gpiozero.OutputDevice(pin, active_high=False, initial_value=False) for pin in pinOuts]
