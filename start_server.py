@@ -1,3 +1,4 @@
+from RPLCD.i2c import CharLCD
 import socket
 import struct
 import gpiozero
