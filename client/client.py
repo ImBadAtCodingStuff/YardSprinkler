@@ -28,13 +28,14 @@ def send_data():
         integer=input("exit/test/Relay number: ")
         if integer=="exit":
             connect = False
-        if integer=="test":
+        elif integer=="test":
             test_all()
-        if connect:
-            boolean=input("0 or 1: ")
-            data = struct.pack('Ib', int(integer), int(boolean))
+        else:
+            if connect:
+                boolean=input("0 or 1: ")
+                data = struct.pack('Ib', int(integer), int(boolean))
 
-            client_socket.sendall(data)
+                client_socket.sendall(data)
 
     client_socket.close()
 
