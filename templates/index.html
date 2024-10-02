@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay Buttons</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden; /* Ensure no overflow */
+        }
+        .image {
+            position: absolute;
+            top: 50%; /* Center the image vertically */
+            left: 42%; /* Center the image horizontally */
+            transform: translate(-50%, -50%) scale(0.22); /* Zoom out by scaling */
+            width: auto;
+            height: auto; /* Maintain aspect ratio */
+            max-width: none; /* Prevent default max width */
+            max-height: none; /* Prevent default max height */
+            object-fit: cover; /* Cover the container */
+        }
+        .button {
+            position: absolute;
+            width: 50px; /* Set a fixed width */
+            height: 50px; /* Set a fixed height */
+            background-color: rgba(30, 146, 255, 0.7);
+            border: none;
+            border-radius: 50%; /* Make the button circular */
+            cursor: pointer;
+            display: flex; /* Center text */
+            align-items: center; /* Center text vertically */
+            justify-content: center; /* Center text horizontally */
+            font-size: 14px; /* Adjust font size */
+            color: black;
+        }
+        /* Position your buttons */
+        #button1 { top: 55%; right: 2%; }
+        #button2 { top: 38%; right: 2%; }
+        #button3 { top: 22%; right: 2%; }
+        #button4 { top: 20%; right: 32%; }
+        #button5 { top: 22%; right: 55%; transform: translate(-50%, -50%); }
+        #button6 { top: 35%; left: 2%; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img class="image" src="{{ url_for('static', filename='image.JPG') }}" alt="Background Image">
+        <button class="button" id="button1">1</button>
+        <button class="button" id="button2">2</button>
+        <button class="button" id="button3">3</button>
+        <button class="button" id="button4">4</button>
+        <button class="button" id="button5">5</button>
+        <button class="button" id="button6">6</button>
+    </div>
+
+    <script>
+        // Initialize Socket.IO connection
+        const socket = io();
+
+        // Function to get GPS coordinates
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        // Function to handle successful location retrieval
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log("Latitude: " + latitude + ", Longitude: " + longitude);
+            // Optionally, send this data to your server or display it on the webpage
+            socket.emit('location', { latitude, longitude });
+        }
+
+        // Function to handle errors
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
+
+        // Call getLocation when the page loads
+        window.onload = getLocation;
+
+        const buttons = document.querySelectorAll('.button');
+        buttons.forEach((button, index) => {
+            button.addEventListener('click', () => {
+                socket.emit('message', `${index + 1}`);
+            });
+        });
+
+        // Listen for responses from the server
+        socket.on('response', (data) => {
+            console.log('Response:', data);
+        });
+    </script>
+    
+</body>
+</html>

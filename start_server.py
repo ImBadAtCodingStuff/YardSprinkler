@@ -64,12 +64,17 @@ def start_server():
                     # Ensure the integer is within the correct range
                     if 1 <= integer <= len(relays):
                         relay = relays[integer - 1]  # Get the corresponding relay (1-based index)
-                        if boolean:
-                            print(f"Setting relay{integer} ON")
-                            relay.on()
-                        else:
-                            print(f"Setting relay{integer} OFF")
-                            relay.off()
+                        
+                        print(f"Toggling relay{integer}")
+                        relay.toggle()
+
+                        # if boolean:
+                        #     print(f"Setting relay{integer} ON")
+                        #     relay.on()
+                        # else:
+                        #     print(f"Setting relay{integer} OFF")
+                        #     relay.off()
+
                     else:
                         print(f"Invalid relay number: {integer}")
                 else:

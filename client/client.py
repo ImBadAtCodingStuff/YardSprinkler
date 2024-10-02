@@ -3,8 +3,9 @@ import struct
 import time
 
 def send_data():
+    connect_to_ip = input("PI5 ip address: ")
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('192.168.12.9', 12345))
+    client_socket.connect((connect_to_ip, 12345))
 
     def test_all():
         print("\nPlease wait...\n")
