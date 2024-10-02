@@ -9,19 +9,20 @@ def send_data():
 
     def test_all():
         print("\nPlease wait...\n")
-        num = 1
-        state = 1
-        while num<=6:
-            time.sleep(.5)
-            data = struct.pack('Ib', num, state)
-            client_socket.sendall(data)
-            num+=1
-        state = 0
-        while num>=1:
-            time.sleep(.5)
-            data = struct.pack('Ib', num, state)
-            client_socket.sendall(data)
-            num-=1
+        while 1:
+            num = 1
+            state = 1
+            while num<=9:
+                time.sleep(.5)
+                data = struct.pack('Ib', num, state)
+                client_socket.sendall(data)
+                num+=1
+            state = 0
+            while num>=1:
+                time.sleep(.5)
+                data = struct.pack('Ib', num, state)
+                client_socket.sendall(data)
+                num-=1
 
     # Pack the integer and boolean into a bytes object
     connect = True
