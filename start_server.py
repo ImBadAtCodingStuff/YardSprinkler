@@ -11,7 +11,7 @@ lcd = CharLCD('PCF8574', 0x27)
 
 #lcd.cursor_pos = (1, 0)  # Move to the second row, first column
 
-pinOuts = [17, 27, 22, 10, 9, 11, 20, 16, 26]
+pinOuts = [17, 27, 22, 10, 9, 5, 23, 24, 25]
 
 # Create a list of relay devices
 relays = [gpiozero.OutputDevice(pin, active_high=False, initial_value=False) for pin in pinOuts]
